@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block content %}
+<form id="forms" method=post action="/psts">
+    <label>Select Player: </label>
+    <select name="player" size="1" class="search" id="player" title="">
+        <option value="{{ playerselected }}" selected>{{ playerselected }}</option>
+        {% for p in players %}
+        {% if p[0] != playerselected %}
+            <option value="{{ p[0] }}">{{ p[0] }}</option>
+        {% endif %}
+        {% endfor %}
+    </select>
+    <label style="padding-left: 20px;" >Select Team: </label>
+    <select name="team" size="1" id="team" class="search" title="" onchange='if(this.value != 0) { this.form.submit(); }'>
+        <option value=""></option>
+        {% for t in teams %}
+            <option value="{{ t[0] }}">{{ t[0] }}</option>
+        {% endfor %}
+    </select>
+</form>
+
+<script type="text/javascript">
+    document.getElementById('player').onchange = function(){
+        document.getElementById('forms').action = '/ps';
+        document.getElementById('forms').submit();
+    };
+</script>
+
+<div style="float:left; padding: 25px;">
+    <h3>Player: {{ playerselected }}</h3>
+    <h3>Region: {{ region[0][0] }}</h3>
+    <h3 style="float:left; margin: 0px;">Team:</h3>
+    <div style="float:left; padding-left: 5px;">
+        <h3 style="margin: 0px; padding: 0px;">{{ teams[0][0] }}</h3>
+        {% set f = 1 %}
+        {% for t in teams %}
+        {% if f != 1 %}
+        <h4 style="margin: 0px; padding: 3px 0px 0px 0px; font-weight:normal;">{{ t[0] }}</h4>
+        {% endif %}
+        {% set f = f+1 %}
+        {% endfor %}
+    </div>
+</div>
+<div style="float:left; padding: 25px;">
+    <table style="width: 350px;">
+        <h3>Total Player Statistics:</h3>
+        <tr>
+            <th>Games Played:</th>
+            <td>{{ gamesplayed[0][0] }}</td>
+        </tr>
+        <tr>
+            <th>Win Ratio:</th>
+            <td>{{ wr }}</td>
+        </tr>
+        <tr>
+            <th>Kills/Deaths/Assists Ratio:</th>
+            <td>{{ kda }}</td>
+        </tr>
+        <tr>
+            <th>Total Kills:</th>
+            <td>{{ k[0][0] }}</td>
+        </tr>
+        <tr>
+            <th>Total Deaths:</th>
+            <td>{{ d[0][0] }}</td>
+        </tr>
+        <tr>
+            <th>Total Assists:</th>
+            <td>{{ a[0][0] }}</td>
+        </tr>
+        <tr>
+            <th>CS Per Minute:</th>
+            <td>{{ cspm }}</td>
+        </tr>
+        <tr>
+            <th>Total CS:</th>
+            <td>{{ cs[0][0] }}</td>
+        </tr>
+        <tr>
+            <th>Gold Per Minute:</th>
+            <td>{{ gpm }}</td>
+        </tr>
+        <tr>
+            <th>Total Gold:</th>
+            <td>{{ g[0][0] }}</td>
+        </tr>
+    </table>
+</div>
+<div style="float:left; padding: 25px;">
+    <table style="width: 350px;">
+        <h3>Most Frequent Champions Played:</h3>
+        <tr>
+            <th>Champion Name:</th>
+            <th>Games Played:</th>
+        <tr>
+            {% for c in topchamps %}
+        <tr>
+            <td>{{ c[0] }}</td>
+            <td>{{ c[1] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

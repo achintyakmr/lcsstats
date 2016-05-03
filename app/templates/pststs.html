@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block content %}
+<form id="forms" method=post action="/pststs">
+    <label>Select Player: </label>
+    <select name="player" size="1" id="player">
+        <option value="{{ playerselected }}" selected>{{ playerselected }}</option>
+        {% for p in players %}
+        {% if p[0] != playerselected %}
+            <option value="{{ p[0] }}">{{ p[0] }}</option>
+        {% endif %}
+        {% endfor %}
+    </select>
+    <label style="padding-left: 20px;" >Select Team: </label>
+    <select name="team" size="1" id="team" title="">
+        <option value="{{ teamselected }}" selected>{{ teamselected }}</option>
+        {% if teams|length  > 1 %}
+        {% for t in teams %}
+        {% if t[0] != teamselected %}
+            <option value="{{ t[0] }}">{{ t[0] }}</option>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+    </select>
+    <label style="padding-left: 20px;" >Select Tournament: </label>
+    <select name="tournament" size="1" id="tournament" title="" style="width: 20%;" onchange='if(this.value != 0 && this.value != "{{ tournamentselected }}") { this.form.submit(); }'>
+        <option value="{{ tournamentselected }}" selected>{{ tournamentselected }}</option>
+        {% if tournaments|length  > 1 %}
+        {% for t in tournaments %}
+        {% if t != tournamentselected %}
+            <option value="{{ t }}">{{ t }}</option>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+    </select>
+</form>
+
+<script type="text/javascript">
+    document.getElementById('player').onchange = function(){
+        document.getElementById('forms').action = '/ps';
+        document.getElementById('forms').submit();
+    };
+    document.getElementById('team').onchange = function(){
+        document.getElementById('forms').action = '/psts';
+        document.getElementById('forms').submit();
+    };
+</script>
+
+<div style="float:left; padding: 25px;">
+    <h3>Player: {{ playerselected }}</h3>
+    <h3>Region: {{ region[0][0] }}</h3>
+    <h3 style="margin: 0px;">Team: {{ teamselected }}</h3>
+</div>
+<div style="float:left; padding: 25px;">
+    <table style="width: 350px;">
+        <h3>Player Statistics for {{ tournamentselected }}:</h3>
+        <tr>
+            <th>Games Played:</th>
+            <td>{{ gamesplayed[0][0] }}</td>
+        </tr>
+        <tr>
+            <th>Win Ratio:</th>
+            <td>{{ wr }}</td>
+        </tr>
+        <tr>
+            <th>Kills/Deaths/Assists Ratio:</th>
+            <td>{{ kda }}</td>
+        </tr>
+        <tr>
+            <th>Total Kills:</th>
+            <td>{{ k[0][0] }}</td>
+        </tr>
+        <tr>
+            <th>Total Deaths:</th>
+            <td>{{ d[0][0] }}</td>
+        </tr>
+        <tr>
+            <th>Total Assists:</th>
+            <td>{{ a[0][0] }}</td>
+        </tr>
+        <tr>
+            <th>CS Per Minute:</th>
+            <td>{{ cspm }}</td>
+        </tr>
+        <tr>
+            <th>Total CS:</th>
+            <td>{{ cs[0][0] }}</td>
+        </tr>
+        <tr>
+            <th>Gold Per Minute:</th>
+            <td>{{ gpm }}</td>
+        </tr>
+        <tr>
+            <th>Total Gold:</th>
+            <td>{{ g[0][0] }}</td>
+        </tr>
+    </table>
+</div>
+<div style="float:left; padding: 25px;">
+    <table style="width: 350px;">
+        <h3>Most Frequent Champions Played in {{ tournamentselected }}:</h3>
+        <tr>
+            <th>Champion Name:</th>
+            <th>Games Played:</th>
+        <tr>
+            {% for c in topchamps %}
+        <tr>
+            <td>{{ c[0] }}</td>
+            <td>{{ c[1] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}
