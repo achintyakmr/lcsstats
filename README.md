@@ -1,2 +1,2 @@
 # lcsstats
-LCSSTATS
+A comprehensive web app for LoL LCS statistics
