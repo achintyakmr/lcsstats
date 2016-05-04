@@ -211,12 +211,15 @@ def ts():
         tournaments.append(str(t[0]) + ' ' + str(t[1]) + ' ' + str(t[2]) + ' ' + str(t[3]))
 
     region = g.db.execute('select team_region from team where team_name=\'' + teamselected + '\'').fetchall()
+    rranking = g.db.execute('select region_ranking from team where team_name=\'' + teamselected + '\'').fetchall()
+    wranking = g.db.execute('select world_ranking from team where team_name=\'' + teamselected + '\'').fetchall()
+    rating = g.db.execute('select team_rating from team where team_name=\'' + teamselected + '\'').fetchall()
     gamesplayed = g.db.execute('select count(*) as gamesplayed from game_stats where blue_team=\'' + teamselected + '\' or red_team=\'' + teamselected + '\'').fetchall()
     winratio = g.db.execute('select count(*) from game_stats where winner=\'' + teamselected + '\'').fetchall()
     wr = float(winratio[0][0]) / gamesplayed[0][0]
     wr = float("{0:.2f}".format(wr))
 
-    return render_template('ts.html', teams=teams, tournaments=tournaments, teamselected=teamselected, wr=wr, gamesplayed=gamesplayed, region=region, roster=roster)
+    return render_template('ts.html', teams=teams, tournaments=tournaments, teamselected=teamselected, wr=wr, gamesplayed=gamesplayed, region=region, roster=roster, rranking=rranking, wranking=wranking, rating=rating)
 
 
 @app.route('/tsts', methods=['GET', 'POST'])
@@ -244,12 +247,15 @@ def tsts():
         tournaments.append(str(x[0]) + ' ' + str(x[1]) + ' ' + str(x[2]) + ' ' + str(x[3]))
 
     region = g.db.execute('select team_region from team where team_name=\'' + teamselected + '\'').fetchall()
+    rranking = g.db.execute('select region_ranking from team where team_name=\'' + teamselected + '\'').fetchall()
+    wranking = g.db.execute('select world_ranking from team where team_name=\'' + teamselected + '\'').fetchall()
+    rating = g.db.execute('select team_rating from team where team_name=\'' + teamselected + '\'').fetchall()
     gamesplayed = g.db.execute('select count(*) as gamesplayed from game_stats where (blue_team=\'' + teamselected + '\' or red_team=\'' + teamselected + '\') and tournament_id=' + tid + '').fetchall()
     winratio = g.db.execute('select count(*) from game_stats where winner=\'' + teamselected + '\' and tournament_id=' + tid + '').fetchall()
     wr = float(winratio[0][0]) / gamesplayed[0][0]
     wr = float("{0:.2f}".format(wr))
 
-    return render_template('tsts.html', teams=teams, tournaments=tournaments, teamselected=teamselected, tournamentselected=tournamentselected, wr=wr, gamesplayed=gamesplayed, region=region, roster=roster)
+    return render_template('tsts.html', teams=teams, tournaments=tournaments, teamselected=teamselected, tournamentselected=tournamentselected, wr=wr, gamesplayed=gamesplayed, region=region, roster=roster, rranking=rranking, wranking=wranking, rating=rating)
 
 
 @app.route('/tos', methods=['GET', 'POST'])

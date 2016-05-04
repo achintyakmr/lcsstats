@@ -33,6 +33,15 @@
 <div style="float: left; padding: 25px;">
     <h3>Team: {{ teamselected }}</h3>
     <h3>Region: {{ region[0][0] }}</h3>
+    {% if wranking[0][0] != 0 %}
+    <h3>World Ranking: {{ wranking[0][0] }}</h3>
+    <h3>Region Ranking: {{ rranking[0][0] }}</h3>
+    <h3>Rating: {{ rating[0][0] }}</h3>
+    {% else %}
+    <h3>World Ranking: N/A</h3>
+    <h3>Region Ranking: N/A</h3>
+    <h3>Rating: N/A</h3>
+    {% endif %}
 </div>
 <div style="float: left; padding: 25px;">
     <h3 style="float:left;">Tournament Roster:</h3>
